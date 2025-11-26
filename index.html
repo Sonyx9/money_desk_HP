@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Money Desk – Moderní nástroj pro správu příjmů, výdajů, projektů a fakturace. Přizpůsobený jednotlivcům i firmám.">
+    <title>Money Desk – Váš přehled příjmů a výdajů</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #F6F5EE;
+            color: #386E77;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            width: auto;
+            height: 120px;
+            margin: 0 auto 2rem;
+            display: block;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #386E77;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: #5a8a94;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        a.card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(56, 110, 119, 0.2);
+            border: 2px solid #386E77;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: #e8f2f4;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #386E77;
+        }
+
+        .card p {
+            color: #5a8a94;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .card-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #E1A653 0%, #d49642 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(225, 166, 83, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        a.card:hover .card-cta:not(.disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(225, 166, 83, 0.4);
+            background: linear-gradient(135deg, #d49642 0%, #c68935 100%);
+        }
+
+        .card-cta::after {
+            content: "→";
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        a.card:hover .card-cta:not(.disabled)::after {
+            transform: translateX(6px);
+        }
+
+        .card-cta.disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .card-cta.disabled::after {
+            display: none;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #386E77;
+            text-align: center;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            color: #5a8a94;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+
+        .section-box {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-box h2 {
+            margin-bottom: 2rem;
+        }
+
+        .section-box p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .features-column h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #386E77;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E1A653;
+        }
+
+        .features-column ul {
+            list-style: none;
+        }
+
+        .features-column ul li {
+            padding: 0.75rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #5a8a94;
+            font-size: 1.05rem;
+        }
+
+        .features-column ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #386E77;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Pricing Tables */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-table {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .pricing-table h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #386E77;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: #e8f2f4;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #386E77;
+            border-bottom: 2px solid #E1A653;
+        }
+
+        table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e8f2f4;
+            color: #5a8a94;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #386E77;
+            font-size: 1.1rem;
+        }
+
+        /* Target Audience */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .audience-column {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .audience-column h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #386E77;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E1A653;
+        }
+
+        .audience-column ul {
+            list-style: none;
+        }
+
+        .audience-column ul li {
+            padding: 0.75rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #5a8a94;
+            font-size: 1.05rem;
+        }
+
+        .audience-column ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #E1A653;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* CTA Block */
+        .cta-block {
+            background: linear-gradient(135deg, #386E77 0%, #2d5660 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 5rem;
+        }
+
+        .cta-block h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-block p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #E1A653 0%, #d49642 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(225, 166, 83, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(225, 166, 83, 0.4);
+            background: linear-gradient(135deg, #d49642 0%, #c68935 100%);
+        }
+
+        .cta-button.disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d5660;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 2rem 1rem;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .cards-grid,
+            .features-grid,
+            .pricing-grid,
+            .audience-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .logo {
+                height: 80px;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero container">
+            <div class="logo">
+                <img src="https://lukaskoula.com/wp-content/uploads/2025/11/logo-ctverec.png" alt="Money Desk Logo">
+            </div>
+            <h1>Vyberte si svou verzi Money Desk</h1>
+            <p class="subtitle">Moderní nástroj pro správu příjmů, výdajů, projektů a fakturace – přizpůsobený jednotlivcům i firmám.</p>
+
+            <div class="cards-grid">
+                <!-- Personal Card -->
+                <a href="https://personal.moneydesk.cz" class="card">
+                    <div class="card-image">
+                        <img src="https://lukaskoula.com/wp-content/uploads/2025/11/Gemini_Generated_Image_ksrr55ksrr55ksrr.jpg" alt="Money Desk Personal">
+                    </div>
+                    <h2>Money Desk Personal</h2>
+                    <p>Jednoduchý a rychlý systém pro osobní finance. Sledujte své příjmy, výdaje, úspory a osobní cashflow na jednom místě.</p>
+                    <div class="card-cta">Vstoupit do Personal</div>
+                </a>
+
+                <!-- Business Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://lukaskoula.com/wp-content/uploads/2025/11/Gemini_Generated_Image_niy5prniy5prniy5.jpg" alt="Money Desk Business">
+                    </div>
+                    <h2>Money Desk Business</h2>
+                    <p>Profesionální nástroj pro podnikatele a malé firmy. Evidence projektů, klientů, fakturace, cashflow, výdajů a ziskovosti.</p>
+                    <div class="card-cta disabled">Připravujeme</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Co je Money Desk? -->
+        <section class="section container">
+            <div class="section-box">
+                <h2>Co je Money Desk?</h2>
+                <p><strong>Komplexní systém pro správu vašich financí</strong></p>
+                <p>Money Desk je moderní aplikace navržená pro osobní i firemní finanční správu.</p>
+                <p>Nabízí jednoduché prostředí, přehledné statistiky, rychlou orientaci a propojení s dalšími službami.</p>
+                <p>Ideální pro jednotlivce, freelancery, malé podnikatele i menší týmy.</p>
+            </div>
+        </section>
+
+        <!-- Pro koho je Money Desk? -->
+        <section class="section container">
+            <h2>Pro koho je Money Desk?</h2>
+            <div class="audience-grid">
+                <div class="audience-column">
+                    <h3>Personal</h3>
+                    <ul>
+                        <li>Studenti</li>
+                        <li>Freelance začátečníci</li>
+                        <li>Lidé sledující výdaje / přehled o financích</li>
+                        <li>Každý, kdo chce vědět, kde mizí peníze</li>
+                    </ul>
+                </div>
+                <div class="audience-column">
+                    <h3>Business</h3>
+                    <ul>
+                        <li>Freelance profesionálové</li>
+                        <li>Malé firmy</li>
+                        <li>Agentury</li>
+                        <li>Konzultanti</li>
+                        <li>Týmy s více projekty</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Block -->
+        <section class="container">
+            <div class="cta-block">
+                <h2>Přehledná správa financí na jednom místě.</h2>
+                <div class="cta-buttons">
+                    <div class="cta-button disabled">Vyzkoušejte si - připravujeme</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>Lukáš Koula © 2025 Money Desk – Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+</body>
+</html>
